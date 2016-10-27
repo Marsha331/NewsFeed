@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,8 +67,9 @@ public class NewsActivity extends AppCompatActivity
 
     @Override
     public Loader<List<News>> onCreateLoader(int i, Bundle bundle) {
-            return new NewsLoader(this);
+        return new NewsLoader(this);
     }
+
     @Override
     public void onLoadFinished(Loader<List<News>> loader, List<News> data) {
         swipe.setRefreshing(false);
@@ -83,7 +85,7 @@ public class NewsActivity extends AppCompatActivity
             //clear the adapter of previous earthquakes
             mAdapter.clear();
 
-            }
+        }
     }
 
     @Override

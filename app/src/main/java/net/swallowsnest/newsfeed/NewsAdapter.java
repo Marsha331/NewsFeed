@@ -48,8 +48,8 @@ public class NewsAdapter extends ArrayAdapter<News> {
         TextView lastModifiedTextView = (TextView) listItemView.findViewById(R.id.date);
         lastModifiedTextView.setText(news.getLastModified());
 
-        TextView authorTextView = (TextView) listItemView.findViewById(R.id.author);
-        authorTextView.setText(news.getAuthor());
+        TextView sectionTextView = (TextView) listItemView.findViewById(R.id.section);
+        sectionTextView.setText(news.getSection());
 
         LinearLayout listItemContainerView = (LinearLayout) listItemView.findViewById(R.id.news_item);
         listItemContainerView.setOnClickListener(new View.OnClickListener() {

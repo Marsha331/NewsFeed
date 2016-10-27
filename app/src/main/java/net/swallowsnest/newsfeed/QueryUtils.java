@@ -73,7 +73,7 @@ public class QueryUtils {
     static String makeHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
 
-        if (url == null){
+        if (url == null) {
             return jsonResponse;
         }
         HttpURLConnection urlConnection = null;
@@ -85,7 +85,7 @@ public class QueryUtils {
             urlConnection.setReadTimeout(10000 /* milliseconds */);
             urlConnection.setConnectTimeout(15000 /* milliseconds */);
             urlConnection.connect();
-            if (urlConnection.getResponseCode() == 200){
+            if (urlConnection.getResponseCode() == 200) {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
@@ -132,6 +132,7 @@ public class QueryUtils {
                 String lastModified = oneResult.getString("webPublicationDate");
                 lastModified = formatDate(lastModified);
                 String url = oneResult.getString("webUrl");
+                String section = oneResult.getString("sectionName");
                 String author = "";
 
                 if (tagsArray.length() == 0) {
@@ -142,7 +143,7 @@ public class QueryUtils {
                         author += firstObject.getString("webTitle") + ". ";
                     }
                 }
-                stories.add(new News(title, lastModified, url, author));
+                stories.add(new News(title, lastModified, url, section, author));
             }
         } catch (JSONException e) {
             Log.e("Queryutils", "Error parsing JSON response", e);

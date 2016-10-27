@@ -19,9 +19,9 @@ public class NewsLoader extends AsyncTaskLoader<List<News>> {
 
     private String mUrl;
 
- public NewsLoader(Context context) {
-    super(context);
-}
+    public NewsLoader(Context context) {
+        super(context);
+    }
 
     @Override
     protected void onStartLoading() {
