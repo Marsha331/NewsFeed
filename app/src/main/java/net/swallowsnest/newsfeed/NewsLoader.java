@@ -3,6 +3,8 @@ package net.swallowsnest.newsfeed;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.util.Log;
+import android.content.Loader;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -13,9 +15,13 @@ import java.util.List;
  */
 
 public class NewsLoader extends AsyncTaskLoader<List<News>> {
+    private static final String LOG_TAG = NewsLoader.class.getName();
 
- public NewsLoader(Context context) {
+    private String mUrl;
+
+ public NewsLoader(Context context, String url) {
     super(context);
+     mUrl = url;
 }
 
     @Override
