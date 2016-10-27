@@ -6,26 +6,27 @@ package net.swallowsnest.newsfeed;
 
 public class News {
     private String mTitle;
-    private String mBlurb;
+    private String mSection;
     private String mLastModified;
     private String mUrl;
+    private String mAuthor;
 
 
-    public News(String title, String blurb, String lastmodified, String url){
+    public News(String title, String lastmodified, String url, String author){
         mTitle = title;
-        mBlurb = blurb;
         mLastModified = lastmodified;
         mUrl = url;
+        mAuthor = author;
     }
 
 
     public String getTitle(){ return mTitle;}
 
-    public String getBlurb(){ return mBlurb;}
-
     public String getLastModified (){ return mLastModified;}
 
     public String getUrl() {return mUrl;}
+
+    public String getAuthor() { return mAuthor; }
 }
 
 

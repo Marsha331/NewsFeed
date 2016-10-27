@@ -45,14 +45,11 @@ public class NewsAdapter extends ArrayAdapter<News> {
         // Set the text on the TextView
         headlineTextView.setText(news.getTitle());
 
-        // Find the TextView in the list_item.xml layout
-        TextView blurbTextTextView = (TextView) listItemView.findViewById(R.id.story_blurb);
-        // Set the text on the TextView
-        blurbTextTextView.setText(news.getBlurb());
-
         TextView lastModifiedTextView = (TextView) listItemView.findViewById(R.id.date);
         lastModifiedTextView.setText(news.getLastModified());
 
+        TextView authorTextView = (TextView) listItemView.findViewById(R.id.author);
+        authorTextView.setText(news.getAuthor());
 
         LinearLayout listItemContainerView = (LinearLayout) listItemView.findViewById(R.id.news_item);
         listItemContainerView.setOnClickListener(new View.OnClickListener() {

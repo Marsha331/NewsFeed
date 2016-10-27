@@ -16,6 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,7 +39,8 @@ public class QueryUtils {
                 .appendQueryParameter("order-by", "newest")
                 .appendQueryParameter("show-references", "author")
                 .appendQueryParameter("show-tags", "contributor")
-                .appendQueryParameter("q", "Android")
+                .appendQueryParameter("show-fields", "trailText")
+                .appendQueryParameter("q", "California")
                 .appendQueryParameter("api-key", "test");
         String url = builder.build().toString();
         return url;
@@ -54,6 +56,19 @@ public class QueryUtils {
         }
     }
 
+    private static String formatDate(String rawDate) {
+        String jsonDatePattern = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+        SimpleDateFormat jsonFormatter = new SimpleDateFormat(jsonDatePattern, Locale.US);
+        try {
+            Date parsedJsonDate = jsonFormatter.parse(rawDate);
+            String finalDatePattern = "MMM d, yyy";
+            SimpleDateFormat finalDateFormatter = new SimpleDateFormat(finalDatePattern, Locale.US);
+            return finalDateFormatter.format(parsedJsonDate);
+        } catch (ParseException e) {
+            Log.e("QueryUtils", "Error parsing JSON date: ", e);
+            return "";
+        }
+    }
 
     static String makeHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
@@ -113,11 +128,21 @@ public class QueryUtils {
             for (int i = 0; i < resultsArray.length(); i++) {
                 JSONObject oneResult = resultsArray.getJSONObject(i);
                 String title = oneResult.getString("webTitle");
-                String url = oneResult.getString("shortUrl");
-                String lastModified = oneResult.getString("lastModified");
-                String blurb = oneResult.getString("trailText");
+                JSONArray tagsArray = oneResult.getJSONArray("tags");
+                String lastModified = oneResult.getString("webPublicationDate");
+                lastModified = formatDate(lastModified);
+                String url = oneResult.getString("webUrl");
+                String author = "";
 
-                stories.add(new News(title, blurb, lastModified, url));
+                if (tagsArray.length() == 0) {
+                    author = null;
+                } else {
+                    for (int j = 0; j < tagsArray.length(); j++) {
+                        JSONObject firstObject = tagsArray.getJSONObject(j);
+                        author += firstObject.getString("webTitle") + ". ";
+                    }
+                }
+                stories.add(new News(title, lastModified, url, author));
             }
         } catch (JSONException e) {
             Log.e("Queryutils", "Error parsing JSON response", e);
